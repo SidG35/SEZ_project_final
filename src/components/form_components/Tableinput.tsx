@@ -1,5 +1,12 @@
-const Tableinput = () => {
+import React, { useState } from "react";
+
+interface TableinputProps {
+  onUpdateTableData: (data: any[]) => void;
+}
+
+const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
   const numberOfRows = 14; // Define the number of rows you want
+  const [tableData, setTableData] = useState<any[]>([]);
 
   const renderRows = () => {
     const rows = [];
@@ -9,16 +16,44 @@ const Tableinput = () => {
         <tr key={i}>
           <td>{serialNumber}</td>
           <td>
-            <input type="text" className="form-control" />
+            <input
+              type="text"
+              className="form-control"
+              onChange={(e) =>
+                handleTableDataChange(i, "activity", e.target.value)
+              }
+            />
           </td>
           <td>
-            <input type="number" className="form-control" step="0.01" min="0" />
+            <input
+              type="number"
+              className="form-control"
+              step="0.01"
+              min="0"
+              onChange={(e) =>
+                handleTableDataChange(i, "duration", e.target.value)
+              }
+            />
           </td>
           <td>
-            <input type="number" className="form-control" step="0.01" min="0" />
+            <input
+              type="number"
+              className="form-control"
+              step="0.01"
+              min="0"
+              onChange={(e) => handleTableDataChange(i, "cost", e.target.value)}
+            />
           </td>
           <td>
-            <input type="number" className="form-control" step="0.01" min="0" />
+            <input
+              type="number"
+              className="form-control"
+              step="0.01"
+              min="0"
+              onChange={(e) =>
+                handleTableDataChange(i, "predecessors", e.target.value)
+              }
+            />
           </td>
           <td>
             <input
@@ -28,6 +63,9 @@ const Tableinput = () => {
               className="form-control"
               step="0.01"
               min="0"
+              onChange={(e) =>
+                handleTableDataChange(i, "man_power", e.target.value)
+              }
             />
             <input
               type="number"
@@ -36,6 +74,9 @@ const Tableinput = () => {
               className="form-control"
               step="0.01"
               min="0"
+              onChange={(e) =>
+                handleTableDataChange(i, "machines", e.target.value)
+              }
             />
             <input
               type="number"
@@ -44,12 +85,28 @@ const Tableinput = () => {
               className="form-control"
               step="0.01"
               min="0"
+              onChange={(e) =>
+                handleTableDataChange(i, "material", e.target.value)
+              }
             />
           </td>
         </tr>
       );
     }
     return rows;
+  };
+  const handleTableDataChange = (
+    index: number,
+    field: string,
+    value: string
+  ) => {
+    const updatedData = [...tableData];
+    if (!updatedData[index]) {
+      updatedData[index] = {}; // Create a new object for the row if it doesn't exist
+    }
+    updatedData[index][field] = value;
+    setTableData(updatedData);
+    onUpdateTableData(updatedData);
   };
 
   return (
