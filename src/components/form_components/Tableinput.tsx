@@ -1,5 +1,3 @@
-import React from "react";
-
 const Tableinput = () => {
   const numberOfRows = 14; // Define the number of rows you want
 
