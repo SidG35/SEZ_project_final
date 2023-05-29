@@ -23,6 +23,7 @@ const Taskform = () => {
       actualDuration: actualduration,
       tableData: tableData,
     };
+    console.log("New task with predecessors:", newTask);
 
     //Retrieve existing tasks from local storaga
     const existingTasks = getTaskData();
