@@ -46,10 +46,8 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
           </td>
           <td>
             <input
-              type="number"
+              type="text"
               className="form-control"
-              step="0.01"
-              min="0"
               onChange={(e) =>
                 handleTableDataChange(i, "predecessors", e.target.value)
               }
@@ -104,9 +102,39 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
     if (!updatedData[index]) {
       updatedData[index] = {}; // Create a new object for the row if it doesn't exist
     }
+
+    if (field === "predecessors") {
+      updatedData[index][field] = validatePredecessors(value);
+    } else {
+      updatedData[index][field] = value;
+    }
+
     updatedData[index][field] = value;
     setTableData(updatedData);
     onUpdateTableData(updatedData);
+  };
+
+  const validatePredecessors = (value: string) => {
+    // Split the input string by commas to get an array of serial numbers
+    const serialNumbers = value.split(",");
+
+    // Remove any leading or trailing whitespaces from each serial number
+    const trimmedSerialNumbers = serialNumbers.map((num) => num.trim());
+
+    // Filter out any empty serial numbers
+    const filteredSerialNumbers = trimmedSerialNumbers.filter(
+      (num) => num !== ""
+    );
+
+    // Convert the serial numbers to integers
+    const predecessorNumbers = filteredSerialNumbers.map((num) =>
+      parseInt(num, 10)
+    );
+
+    // Limit the number of predecessors to a maximum of 5
+    const limitedPredecessors = predecessorNumbers.slice(0, 5);
+
+    return limitedPredecessors;
   };
 
   return (

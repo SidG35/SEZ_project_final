@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Tableinput from "./Tableinput";
+import { storeTaskData, getTaskData } from "../localStorage/localStorageUtils";
 
 const Taskform = () => {
   const [projectname, setProjectName] = useState("");
@@ -16,17 +17,27 @@ const Taskform = () => {
     console.log("The table data is ", tableData);
 
     // Create a new task object with the form field values
-    // const newTask = {
-    //   name: taskName,
-    //   startDate,
-    //   endDate,
-    //   predecessor,
-    //   resources: {
-    //     manpower,
-    //     machine,
-    //     material,
-    //   },
-    // };
+    const newTask = {
+      name: projectname,
+      planDuration: planduration,
+      actualDuration: actualduration,
+      tableData: tableData,
+    };
+
+    //Retrieve existing tasks from local storaga
+    const existingTasks = getTaskData();
+
+    //Add the new task to the existing tasks array
+    const updateTasks = [...existingTasks, newTask];
+
+    //Store the updated tasks data in local storage
+    storeTaskData(updateTasks);
+
+    // Reset form fields
+    setProjectName("");
+    setPlanDuration("");
+    setActualDuration("");
+    setTableData([]);
   };
 
   return (

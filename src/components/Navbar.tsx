@@ -1,29 +1,30 @@
 import React from "react";
 import "./Home.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary custom-bg">
         <div className="container-fluid">
-          <a className="navbar-brand text-white" href="#">
+          <Link className="navbar-brand text-white" to="/">
             Navbar
-          </a>
+          </Link>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a
+                <Link
                   className="nav-link active text-white"
                   aria-current="page"
-                  href="#"
+                  to="/"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white" href="#">
+                <Link className="nav-link text-white" to="/ganttchart">
                   Gantt Chart
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

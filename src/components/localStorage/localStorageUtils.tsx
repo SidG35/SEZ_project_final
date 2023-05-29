@@ -1,7 +1,7 @@
 // localStorageUtils.js
 
 // Storing task data
-export const storeTaskData = (tasks) => {
+export const storeTaskData = (tasks: any[]): void => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
