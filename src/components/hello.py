@@ -58,7 +58,6 @@ def createChartFromInputs():
 
 
 # Define the project parameters
-num_activities = 14
 max_duration = 850
 max_cost = 100
 num_resources = 3
@@ -79,7 +78,8 @@ class Activity:
         self.resource_requirements = resource_requirements
 
 
-def generate_random_schedule():
+def generate_random_schedule(activities):
+    num_activities = len(activities)
     schedule = np.zeros(num_activities)
     for i in range(num_activities):
         schedule[i] = random.randint(0, max_duration)
@@ -88,12 +88,14 @@ def generate_random_schedule():
 
 def calculate_total_cost(schedule, activities):
     total_cost = 0
+    num_activities = len(activities)
     for i in range(num_activities):
         total_cost += schedule[i] * activities[i].cost
     return total_cost
 
 
 def calculate_total_time(schedule, activities):
+    num_activities = len(activities)
     total_time = np.zeros(num_activities)
     for i in range(num_activities):
         pred_time = [total_time[j] for j in activities[i].predecessors]
@@ -115,7 +117,8 @@ def calculate_fitness(schedule, activities):
     return 1 / (total_cost * total_time)
 
 
-def crossover(parent1, parent2):
+def crossover(parent1, parent2, activities):
+    num_activities = len(activities)
     crossover_point = random.randint(1, num_activities - 2)
     child = np.concatenate(
         (parent1[:crossover_point], parent2[crossover_point:]))
@@ -123,6 +126,7 @@ def crossover(parent1, parent2):
 
 
 def mutate(schedule, activities):
+    num_activities = len(activities)
     for i in range(num_activities):
         if random.random() < mutation_rate:
             # Increase the resources to decrease the duration
@@ -138,7 +142,7 @@ def mutate(schedule, activities):
 def genetic_algorithm(activities):
     population = []
     for _ in range(population_size):
-        schedule = generate_random_schedule()
+        schedule = generate_random_schedule(activities)
         population.append(schedule)
 
     for generation in range(num_generations):
@@ -153,7 +157,7 @@ def genetic_algorithm(activities):
         parent2 = population[parents_indices[1]]
 
         # Perform crossover and mutation
-        child = crossover(parent1, parent2)
+        child = crossover(parent1, parent2, activities)
         child = mutate(child, activities)
 
         # Replace the least fit individual with the child
@@ -249,6 +253,8 @@ def createChart(activities):
 
     best_schedule = genetic_algorithm(activities)
     print("Optimized Schedule:")
+
+    num_activities = len(activities)
     for i in range(num_activities):
         print(
             f"Activity {i + 1}: Activity_name:{activities[i].name}, Duration: {activities[i].duration}")
@@ -261,7 +267,7 @@ def createChart(activities):
     print("Maximum End Time:", maximum_end_time)
 
     # Generate a random schedule (replace this with your own schedule)
-    schedule = generate_random_schedule()
+    # schedule = generate_random_schedule(activities)
 
     # Plot the Gantt chart
     plot_gantt_chart(activities, best_schedule)
