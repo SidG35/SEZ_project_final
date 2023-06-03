@@ -2,10 +2,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 from flask import Flask, jsonify, request, json
+from PIL import Image
+import io
+import base64
+import flask
 
 app = Flask(__name__)
 
-user_input_json = {
+user_input_json_sample = {
     'project_name': 'name',
     'project_duration': 1000,
     'project_actual_duration': 2000,
@@ -117,7 +121,9 @@ def createChartFromInputs():
 
     activities = []
 
-    activities_json = user_input_json['activities']
+    json_from_request = request.get_json()
+
+    activities_json = json_from_request['activities']
     acivities_count = len(activities_json)
     for i in range(acivities_count):
         current_activity = activities_json[i]
@@ -152,7 +158,17 @@ def createChartFromInputs():
     #                            23.8, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [397, 266, 1]))
 
     createChart(activities)
-    return '', 204
+
+    img = Image.open("aa.png")
+    rawBytes = io.BytesIO()
+    img.save(rawBytes, 'PNG')
+    rawBytes.seek(0)
+    img_base64 = base64.b64encode(rawBytes.read())
+    base64String = 'data:image/jpeg;base64,' + str(img_base64).split('\'')[1]
+
+    return flask.jsonify({'response': base64String})
+
+    # return '', 204
 
 
 # Define the project parameters
