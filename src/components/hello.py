@@ -5,16 +5,55 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-activities_json = [
-    {'project_name': 'name', 'project_duration': 'duration',
-        'project_cost': 'cost', 'predecessors': 'predecessors', 'resource_requirements': 'resource_requirements'}
-]
+user_input_json = {
+    'project_name': 'name',
+    'project_duration': 1000,
+    'project_actual_duration': 2000,
+    'activities': [
+        {
+            'act_name': 'Ground Improvement PVD-PA',
+            'act_duration': 470,
+            'cost': 67.116,
+            'predecessors': [],
+            'resource_requirements': [1, 178, 1]
+        }
+    ]}
 
 
 @app.route('/sez', methods=['POST'])
 def createChartFromInputs():
     # incomes.append(request.get_json())
-    createChart()
+
+    activities = []
+
+    activities.append(Activity('Ground Improvement PVD-PA',
+                               470, 67.116, [], [1, 178, 1]))
+    activities.append(Activity('Ground Improvement PVD-NPA',
+                               494, 24.276, [], [1, 61, 1]))
+    activities.append(Activity('Site Grading PA',
+                      207, 48.552, [1], [1, 293, 1]))
+    activities.append(Activity('Site Grading NPA',
+                      52, 17.136, [2], [1, 411, 1]))
+    activities.append(Activity('Buildings', 849, 13.328, [3], [3, 3, 3]))
+    activities.append(Activity('Internal road PA',
+                      284, 93.296, [3], [38, 57, 95]))
+    activities.append(Activity('Internal road NPA',
+                      235, 39.98, [4], [19, 29, 49]))
+    activities.append(Activity('Grade Separator',
+                      831, 33.320, [6], [5, 7, 11]))
+    activities.append(Activity('Water Supply network',
+                               823, 14.280, [3, 4], [7, 1, 11]))
+    activities.append(Activity('Recycled water supply network',
+                               800, 4.760, [3, 4], [2, 1, 4]))
+    activities.append(Activity('Sewerage Network', 285,
+                               28.560, [3, 4], [43, 1, 65]))
+    activities.append(Activity('Power Supply', 285,
+                      64.26, [3, 4], [98, 1, 147]))
+    activities.append(Activity('Landscaping', 285, 3.332, [3, 4], [4, 1, 8]))
+    activities.append(Activity('Project Commisioning', 39,
+                               23.8, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [397, 266, 1]))
+
+    createChart(activities)
     return '', 204
 
 
@@ -40,31 +79,6 @@ class Activity:
         self.resource_requirements = resource_requirements
 
 
-# Define the activities
-activities = []
-
-activities.append(Activity('Ground Improvement PVD-PA',
-                  470, 67.116, [], [1, 178, 1]))
-activities.append(Activity('Ground Improvement PVD-NPA',
-                  494, 24.276, [], [1, 61, 1]))
-activities.append(Activity('Site Grading PA', 207, 48.552, [1], [1, 293, 1]))
-activities.append(Activity('Site Grading NPA', 52, 17.136, [2], [1, 411, 1]))
-activities.append(Activity('Buildings', 849, 13.328, [3], [3, 3, 3]))
-activities.append(Activity('Internal road PA', 284, 93.296, [3], [38, 57, 95]))
-activities.append(Activity('Internal road NPA', 235, 39.98, [4], [19, 29, 49]))
-activities.append(Activity('Grade Separator', 831, 33.320, [6], [5, 7, 11]))
-activities.append(Activity('Water Supply network',
-                  823, 14.280, [3, 4], [7, 1, 11]))
-activities.append(Activity('Recycled water supply network',
-                  800, 4.760, [3, 4], [2, 1, 4]))
-activities.append(Activity('Sewerage Network', 285,
-                  28.560, [3, 4], [43, 1, 65]))
-activities.append(Activity('Power Supply', 285, 64.26, [3, 4], [98, 1, 147]))
-activities.append(Activity('Landscaping', 285, 3.332, [3, 4], [4, 1, 8]))
-activities.append(Activity('Project Commisioning', 39,
-                  23.8, [9, 10, 11, 12], [397, 266, 1]))
-
-
 def generate_random_schedule():
     schedule = np.zeros(num_activities)
     for i in range(num_activities):
@@ -72,14 +86,14 @@ def generate_random_schedule():
     return schedule
 
 
-def calculate_total_cost(schedule):
+def calculate_total_cost(schedule, activities):
     total_cost = 0
     for i in range(num_activities):
         total_cost += schedule[i] * activities[i].cost
     return total_cost
 
 
-def calculate_total_time(schedule):
+def calculate_total_time(schedule, activities):
     total_time = np.zeros(num_activities)
     for i in range(num_activities):
         pred_time = [total_time[j] for j in activities[i].predecessors]
@@ -95,9 +109,9 @@ def calculate_total_time(schedule):
     return max(total_time)
 
 
-def calculate_fitness(schedule):
-    total_cost = calculate_total_cost(schedule)
-    total_time = calculate_total_time(schedule)
+def calculate_fitness(schedule, activities):
+    total_cost = calculate_total_cost(schedule, activities)
+    total_time = calculate_total_time(schedule, activities)
     return 1 / (total_cost * total_time)
 
 
@@ -108,7 +122,7 @@ def crossover(parent1, parent2):
     return child
 
 
-def mutate(schedule):
+def mutate(schedule, activities):
     for i in range(num_activities):
         if random.random() < mutation_rate:
             # Increase the resources to decrease the duration
@@ -121,7 +135,7 @@ def mutate(schedule):
     return schedule
 
 
-def genetic_algorithm():
+def genetic_algorithm(activities):
     population = []
     for _ in range(population_size):
         schedule = generate_random_schedule()
@@ -130,7 +144,7 @@ def genetic_algorithm():
     for generation in range(num_generations):
         fitness_scores = []
         for schedule in population:
-            fitness_scores.append(calculate_fitness(schedule))
+            fitness_scores.append(calculate_fitness(schedule, activities))
 
         # Select parents based on fitness scores
         parents_indices = np.random.choice(
@@ -140,15 +154,15 @@ def genetic_algorithm():
 
         # Perform crossover and mutation
         child = crossover(parent1, parent2)
-        child = mutate(child)
+        child = mutate(child, activities)
 
         # Replace the least fit individual with the child
         least_fit_index = np.argmin(fitness_scores)
         population[least_fit_index] = child
 
         best_schedule = population[np.argmax(fitness_scores)]
-        best_cost = calculate_total_cost(best_schedule)
-        best_time = calculate_total_time(best_schedule)
+        best_cost = calculate_total_cost(best_schedule, activities)
+        best_time = calculate_total_time(best_schedule, activities)
 
         print(f"Generation: {generation + 1}  Best Time: {best_time}")
 
@@ -231,9 +245,9 @@ def calculate_start_and_end_times(activities, optimized_schedule):
     return smallest_start_time, maximum_end_time
 
 
-def createChart():
+def createChart(activities):
 
-    best_schedule = genetic_algorithm()
+    best_schedule = genetic_algorithm(activities)
     print("Optimized Schedule:")
     for i in range(num_activities):
         print(
