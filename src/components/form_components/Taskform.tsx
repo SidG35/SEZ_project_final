@@ -7,6 +7,7 @@ const Taskform = () => {
   const [planduration, setPlanDuration] = useState("");
   const [actualduration, setActualDuration] = useState("");
   const [tableData, setTableData] = useState<any[]>([]);
+  const [imageContent, setImageContent] = useState("");
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -14,9 +15,20 @@ const Taskform = () => {
     fetch("http://127.0.0.1:5000/sez", {
       method: "POST",
       body: JSON.stringify({
+        project_name: "name",
+        project_duration: "duration",
+        project_cost: "cost",
+        predecessors: "predecessors",
+        resource_requirements: "resource_requirements",
         userId: Math.random().toString(36).slice(2),
       }),
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // const myObj = JSON.parse(data);
+        setImageContent(data.response);
+        console.log("mydata " + data.response);
+      });
 
     console.log("The project name is ", projectname);
     console.log("The plan duration is ", planduration);
@@ -96,6 +108,8 @@ const Taskform = () => {
           Submit
         </button>
       </form>
+
+      <img src={imageContent} alt="Red dot" />
     </div>
   );
 };
