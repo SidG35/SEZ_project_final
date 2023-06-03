@@ -11,6 +11,13 @@ const Taskform = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
+    fetch("http://127.0.0.1:5000/sez", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: Math.random().toString(36).slice(2),
+      }),
+    });
+
     console.log("The project name is ", projectname);
     console.log("The plan duration is ", planduration);
     console.log("The actual duration is ", actualduration);
