@@ -17,14 +17,97 @@ user_input_json = {
             'predecessors': [],
             'resource_requirements': [1, 178, 1]
         },
-
         {
             'name': 'Ground Improvement PVD-NPA',
             'duration': 494,
             'cost': 24.276,
             'predecessors': [],
             'resource_requirements': [1, 61, 1]
-        }
+        },
+        {
+            'name': 'Site Grading PA',
+            'duration': 207,
+            'cost': 48.552,
+            'predecessors': [1],
+            'resource_requirements': [1, 293, 1]
+        },
+        {
+            'name': 'Site Grading NPA',
+            'duration': 52,
+            'cost': 17.136,
+            'predecessors': [2],
+            'resource_requirements': [1, 411, 1]
+        },
+        {
+            'name': 'Buildings',
+            'duration': 849,
+            'cost': 13.328,
+            'predecessors': [3],
+            'resource_requirements': [3, 3, 3]
+        },
+        {
+            'name': 'Internal road PA',
+            'duration': 284,
+            'cost': 93.296,
+            'predecessors': [3],
+            'resource_requirements': [38, 57, 95]
+        },
+        {
+            'name': 'Internal road NPA',
+            'duration': 235,
+            'cost': 39.98,
+            'predecessors': [4],
+            'resource_requirements': [19, 29, 49]
+        },
+        {
+            'name': 'Grade Separator',
+            'duration': 831,
+            'cost': 33.320,
+            'predecessors': [6],
+            'resource_requirements': [5, 7, 11]
+        },
+        {
+            'name': 'Water Supply network',
+            'duration': 823,
+            'cost': 14.280,
+            'predecessors': [3, 4],
+            'resource_requirements': [7, 1, 11]
+        },
+        {
+            'name': 'Recycled water supply network',
+            'duration': 800,
+            'cost': 4.760,
+            'predecessors': [3, 4],
+            'resource_requirements': [2, 1, 4]
+        },
+        {
+            'name': 'Sewerage Network',
+            'duration': 285,
+            'cost': 28.560,
+            'predecessors': [3, 4],
+            'resource_requirements': [43, 1, 65]
+        },
+        {
+            'name': 'Power Supply',
+            'duration': 285,
+            'cost': 64.26,
+            'predecessors': [3, 4],
+            'resource_requirements': [98, 1, 147]
+        },
+        {
+            'name': 'Landscaping',
+            'duration': 285,
+            'cost': 3.332,
+            'predecessors': [3, 4],
+            'resource_requirements': [4, 1, 8]
+        },
+        {
+            'name': 'Project Commisioning',
+            'duration': 39,
+            'cost':  23.8,
+            'predecessors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            'resource_requirements': [397, 266, 1]
+        },
     ]}
 
 
@@ -45,28 +128,28 @@ def createChartFromInputs():
     #                            470, 67.116, [], [1, 178, 1]))
     # activities.append(Activity('Ground Improvement PVD-NPA',
     #                            494, 24.276, [], [1, 61, 1]))
-    activities.append(Activity('Site Grading PA',
-                      207, 48.552, [1], [1, 293, 1]))
-    activities.append(Activity('Site Grading NPA',
-                      52, 17.136, [2], [1, 411, 1]))
-    activities.append(Activity('Buildings', 849, 13.328, [3], [3, 3, 3]))
-    activities.append(Activity('Internal road PA',
-                      284, 93.296, [3], [38, 57, 95]))
-    activities.append(Activity('Internal road NPA',
-                      235, 39.98, [4], [19, 29, 49]))
-    activities.append(Activity('Grade Separator',
-                      831, 33.320, [6], [5, 7, 11]))
-    activities.append(Activity('Water Supply network',
-                               823, 14.280, [3, 4], [7, 1, 11]))
-    activities.append(Activity('Recycled water supply network',
-                               800, 4.760, [3, 4], [2, 1, 4]))
-    activities.append(Activity('Sewerage Network', 285,
-                               28.560, [3, 4], [43, 1, 65]))
-    activities.append(Activity('Power Supply', 285,
-                      64.26, [3, 4], [98, 1, 147]))
-    activities.append(Activity('Landscaping', 285, 3.332, [3, 4], [4, 1, 8]))
-    activities.append(Activity('Project Commisioning', 39,
-                               23.8, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [397, 266, 1]))
+    # activities.append(Activity('Site Grading PA',
+    #                   207, 48.552, [1], [1, 293, 1]))
+    # activities.append(Activity('Site Grading NPA',
+    #                   52, 17.136, [2], [1, 411, 1]))
+    # activities.append(Activity('Buildings', 849, 13.328, [3], [3, 3, 3]))
+    # activities.append(Activity('Internal road PA',
+    #                   284, 93.296, [3], [38, 57, 95]))
+    # activities.append(Activity('Internal road NPA',
+    #                   235, 39.98, [4], [19, 29, 49]))
+    # activities.append(Activity('Grade Separator',
+    #                   831, 33.320, [6], [5, 7, 11]))
+    # activities.append(Activity('Water Supply network',
+    #                            823, 14.280, [3, 4], [7, 1, 11]))
+    # activities.append(Activity('Recycled water supply network',
+    #                            800, 4.760, [3, 4], [2, 1, 4]))
+    # activities.append(Activity('Sewerage Network', 285,
+    #                            28.560, [3, 4], [43, 1, 65]))
+    # activities.append(Activity('Power Supply', 285,
+    #                   64.26, [3, 4], [98, 1, 147]))
+    # activities.append(Activity('Landscaping', 285, 3.332, [3, 4], [4, 1, 8]))
+    # activities.append(Activity('Project Commisioning', 39,
+    #                            23.8, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [397, 266, 1]))
 
     createChart(activities)
     return '', 204
