@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, json
 
 app = Flask(__name__)
 
@@ -11,11 +11,19 @@ user_input_json = {
     'project_actual_duration': 2000,
     'activities': [
         {
-            'act_name': 'Ground Improvement PVD-PA',
-            'act_duration': 470,
+            'name': 'Ground Improvement PVD-PA',
+            'duration': 470,
             'cost': 67.116,
             'predecessors': [],
             'resource_requirements': [1, 178, 1]
+        },
+
+        {
+            'name': 'Ground Improvement PVD-NPA',
+            'duration': 494,
+            'cost': 24.276,
+            'predecessors': [],
+            'resource_requirements': [1, 61, 1]
         }
     ]}
 
@@ -26,10 +34,17 @@ def createChartFromInputs():
 
     activities = []
 
-    activities.append(Activity('Ground Improvement PVD-PA',
-                               470, 67.116, [], [1, 178, 1]))
-    activities.append(Activity('Ground Improvement PVD-NPA',
-                               494, 24.276, [], [1, 61, 1]))
+    activities_json = user_input_json['activities']
+    acivities_count = len(activities_json)
+    for i in range(acivities_count):
+        current_activity = activities_json[i]
+        activities.append(Activity(
+            current_activity['name'], current_activity['duration'], current_activity['cost'], current_activity['predecessors'], current_activity['resource_requirements']))
+
+    # activities.append(Activity('Ground Improvement PVD-PA',
+    #                            470, 67.116, [], [1, 178, 1]))
+    # activities.append(Activity('Ground Improvement PVD-NPA',
+    #                            494, 24.276, [], [1, 61, 1]))
     activities.append(Activity('Site Grading PA',
                       207, 48.552, [1], [1, 293, 1]))
     activities.append(Activity('Site Grading NPA',
@@ -67,6 +82,14 @@ max_resource_capacity = 400
 population_size = 50
 mutation_rate = 0.01
 num_generations = 100
+
+
+class UserInput:
+    def __init__(self, project_name, project_duration, project_actual_duration, activities):
+        self.project_name = project_name
+        self.project_duration = project_duration
+        self.project_actual_duration = project_actual_duration
+        self.activities = activities
 
 
 class Activity:
