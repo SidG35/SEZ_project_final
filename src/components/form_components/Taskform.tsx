@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Tableinput from "./Tableinput";
 import { storeTaskData, getTaskData } from "../localStorage/localStorageUtils";
+import { v4 as uuidv4 } from "uuid";
 
 const Taskform = () => {
   const [projectname, setProjectName] = useState("");
@@ -12,20 +13,34 @@ const Taskform = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
+    const activities = tableData.map((data) => ({
+      name: data.name,
+      duration: parseFloat(data.duration || 0),
+      cost: parseFloat(data.cost || 0),
+      predecessors: data.predecessors || [],
+      resource_requirements: [
+        parseFloat(data.man_power || 0),
+        parseFloat(data.machines || 0),
+        parseFloat(data.material || 0),
+      ],
+    }));
+
+    const requestData = {
+      project_name: projectname,
+      project_duration: planduration,
+      activities: activities,
+      userId: uuidv4(),
+    };
+
     fetch("http://127.0.0.1:5000/sez", {
       method: "POST",
-      body: JSON.stringify({
-        project_name: "name",
-        project_duration: "duration",
-        project_cost: "cost",
-        predecessors: "predecessors",
-        resource_requirements: "resource_requirements",
-        userId: Math.random().toString(36).slice(2),
-      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
     })
       .then((response) => response.json())
       .then((data) => {
-        // const myObj = JSON.parse(data);
         setImageContent(data.response);
         console.log("mydata " + data.response);
       });
@@ -109,7 +124,13 @@ const Taskform = () => {
         </button>
       </form>
 
-      <img src={imageContent} alt="Red dot" />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <img
+          src={imageContent}
+          className="d-flex justify-content-center"
+          alt="Red dot"
+        />
+      </div>
     </div>
   );
 };

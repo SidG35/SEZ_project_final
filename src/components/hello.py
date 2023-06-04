@@ -6,8 +6,11 @@ from PIL import Image
 import io
 import base64
 import flask
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 
 user_input_json_sample = {
     'project_name': 'name',
@@ -121,8 +124,8 @@ def createChartFromInputs():
 
     activities = []
 
-    json_from_request = user_input_json_sample
-    # json_from_request = request.get_json()
+    # json_from_request = user_input_json_sample
+    json_from_request = request.get_json()
 
     activities_json = json_from_request['activities']
     acivities_count = len(activities_json)

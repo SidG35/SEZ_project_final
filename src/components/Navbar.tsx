@@ -21,11 +21,6 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/ganttchart">
-                  Gantt Chart
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
