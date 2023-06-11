@@ -13,108 +13,108 @@ app = Flask(__name__)
 CORS(app)
 
 user_input_json_sample = {
-    "project_name": "SIDG",
-    "project_duration": 1000,
-    "project_actual_duration": 2000,
-    "activities": [
+    'project_name': 'name',
+    'project_duration': 1000,
+    'project_actual_duration': 2000,
+    'activities': [
         {
-            "name": "This is power supply",
-            "duration": 510,
-            "cost": 67.116,
-            "predecessors": [],
-            "resource_requirements": [1, 178, 1]
+            'name': 'Ground Improvement PVD-PA',
+            'duration': 470,
+            'cost': 67.116,
+            'predecessors': [],
+            'resource_requirements': [1, 178, 1]
         },
         {
-            "name": "This is 2nd",
-            "duration": 798,
-            "cost": 24.276,
-            "predecessors": [],
-            "resource_requirements": [1, 61, 1]
+            'name': 'Ground Improvement PVD-NPA',
+            'duration': 494,
+            'cost': 24.276,
+            'predecessors': [],
+            'resource_requirements': [1, 61, 1]
         },
         {
-            "name": "Site Grading PA",
-            "duration": 207,
-            "cost": 48.552,
-            "predecessors": [1],
-            "resource_requirements": [1, 293, 1]
+            'name': 'Site Grading PA',
+            'duration': 207,
+            'cost': 48.552,
+            'predecessors': [1],
+            'resource_requirements': [1, 293, 1]
         },
         {
-            "name": "Site Grading NPA",
-            "duration": 52,
-            "cost": 17.136,
-            "predecessors": [2],
-            "resource_requirements": [1, 411, 1]
+            'name': 'Site Grading NPA',
+            'duration': 52,
+            'cost': 17.136,
+            'predecessors': [2],
+            'resource_requirements': [1, 411, 1]
         },
         {
-            "name": "Buildings",
-            "duration": 849,
-            "cost": 13.328,
-            "predecessors": [3],
-            "resource_requirements": [3, 3, 3]
+            'name': 'Buildings',
+            'duration': 849,
+            'cost': 13.328,
+            'predecessors': [3],
+            'resource_requirements': [3, 3, 3]
         },
         {
-            "name": "Internal road PA",
-            "duration": 284,
-            "cost": 93.296,
-            "predecessors": [3],
-            "resource_requirements": [38, 57, 95]
+            'name': 'Internal road PA',
+            'duration': 284,
+            'cost': 93.296,
+            'predecessors': [3],
+            'resource_requirements': [38, 57, 95]
         },
         {
-            "name": "Internal road NPA",
-            "duration": 235,
-            "cost": 39.98,
-            "predecessors": [4],
-            "resource_requirements": [19, 29, 49]
+            'name': 'Internal road NPA',
+            'duration': 235,
+            'cost': 39.98,
+            'predecessors': [4],
+            'resource_requirements': [19, 29, 49]
         },
         {
-            "name": "Grade Separator",
-            "duration": 831,
-            "cost": 33.320,
-            "predecessors": [6],
-            "resource_requirements": [5, 7, 11]
+            'name': 'Grade Separator',
+            'duration': 831,
+            'cost': 33.320,
+            'predecessors': [6],
+            'resource_requirements': [5, 7, 11]
         },
         {
-            "name": "Water Supply network",
-            "duration": 823,
-            "cost": 14.280,
-            "predecessors": [3, 4],
-            "resource_requirements": [7, 1, 11]
+            'name': 'Water Supply network',
+            'duration': 823,
+            'cost': 14.280,
+            'predecessors': [3, 4],
+            'resource_requirements': [7, 1, 11]
         },
         {
-            "name": "Recycled water supply network",
-            "duration": 800,
-            "cost": 4.760,
-            "predecessors": [3, 4],
-            "resource_requirements": [2, 1, 4]
+            'name': 'Recycled water supply network',
+            'duration': 800,
+            'cost': 4.760,
+            'predecessors': [3, 4],
+            'resource_requirements': [2, 1, 4]
         },
         {
-            "name": "Sewerage Network",
-            "duration": 285,
-            "cost": 28.560,
-            "predecessors": [3, 4],
-            "resource_requirements": [43, 1, 65]
+            'name': 'Sewerage Network',
+            'duration': 285,
+            'cost': 28.560,
+            'predecessors': [3, 4],
+            'resource_requirements': [43, 1, 65]
         },
         {
-            "name": "Power Supply",
-            "duration": 285,
-            "cost": 64.26,
-            "predecessors": [3, 4],
-            "resource_requirements": [98, 1, 147]
+            'name': 'Power Supply',
+            'duration': 285,
+            'cost': 64.26,
+            'predecessors': [3, 4],
+            'resource_requirements': [98, 1, 147]
         },
         {
-            "name": "Landscaping",
-            "duration": 285,
-            "cost": 3.332,
-            "predecessors": [3, 4],
-            "resource_requirements": [4, 1, 8]
+            'name': 'Landscaping',
+            'duration': 285,
+            'cost': 3.332,
+            'predecessors': [3, 4],
+            'resource_requirements': [4, 1, 8]
         },
         {
-            "name": "Project Commisioning",
-            "duration": 39,
-            "cost":  23.8,
-            "predecessors": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-            "resource_requirements": [397, 266, 1]
-        }
+            'name': 'Project Commisioning',
+            'duration': 39,
+            'cost':  23.8,
+            'predecessors': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+            'resource_requirements': [397, 266, 1]
+        },
     ]}
 
 
@@ -126,6 +126,7 @@ def createChartFromInputs():
 
     # json_from_request = user_input_json_sample
     json_from_request = request.get_json()
+    # json_from_request = request.form
 
     activities_json = json_from_request['activities']
     acivities_count = len(activities_json)
