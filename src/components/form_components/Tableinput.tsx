@@ -10,6 +10,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
 
   const renderRows = () => {
     const rows = [];
+
     for (let i = 0; i < numberOfRows; i++) {
       const serialNumber = i + 1;
       rows.push(

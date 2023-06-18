@@ -161,7 +161,7 @@ def createChartFromInputs():
     # activities.append(Activity('Project Commisioning', 39,
     #                            23.8, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [397, 266, 1]))
 
-    createChart(activities)
+    tempx = createChart(activities)
 
     img = Image.open("aa.png")
     rawBytes = io.BytesIO()
@@ -170,7 +170,8 @@ def createChartFromInputs():
     img_base64 = base64.b64encode(rawBytes.read())
     base64String = 'data:image/jpeg;base64,' + str(img_base64).split('\'')[1]
 
-    response = flask.jsonify({'response': base64String})
+    response = flask.jsonify(
+        {'response': base64String, 'message': tempx})
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
@@ -309,7 +310,7 @@ def plot_gantt_chart(activities, schedule):
 
     # Set the y-axis ticks and labels
     y_ticks = range(len(activities))
-    y_labels = [f"Activity {i + 1}: {activities[i].name}" for i in y_ticks]
+    y_labels = [f"{activities[i].name}" for i in y_ticks]
     ax.set_yticks(y_ticks)
     ax.set_yticklabels(y_labels)
 
@@ -388,7 +389,7 @@ def createChart(activities):
     num_activities = len(activities)
     for i in range(num_activities):
         print(
-            f"Activity {i + 1}: Activity_name:{activities[i].name}, Duration: {activities[i].duration}")
+            f"Activity_name:{activities[i].name}, Duration: {activities[i].duration}")
 
     # Calculate the smallest start time and maximum end time
     smallest_start_time, maximum_end_time = calculate_start_and_end_times(
@@ -402,3 +403,4 @@ def createChart(activities):
 
     # Plot the Gantt chart
     plot_gantt_chart(activities, best_schedule)
+    return maximum_end_time

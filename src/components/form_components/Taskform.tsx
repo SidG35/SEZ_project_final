@@ -9,6 +9,7 @@ const Taskform = () => {
   const [actualduration, setActualDuration] = useState("");
   const [tableData, setTableData] = useState<any[]>([]);
   const [imageContent, setImageContent] = useState("");
+  const [messageContent, setMessageContent] = useState("");
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -47,6 +48,8 @@ const Taskform = () => {
         // console.log(data.response);
         setImageContent(data.response);
         console.log("mydata " + data.response);
+        setMessageContent(data.message);
+        console.log("message " + data.message);
       })
       .then((error) => console.log(error));
 
@@ -136,6 +139,8 @@ const Taskform = () => {
           alt="Red dot"
         />
       </div>
+
+      <h3 className="m-auto">{messageContent}</h3>
     </div>
   );
 };
