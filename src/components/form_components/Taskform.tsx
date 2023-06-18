@@ -28,9 +28,12 @@ const Taskform = () => {
     const requestData = {
       project_name: projectname,
       project_duration: planduration,
+      project_actual_duration: actualduration,
       activities: activities,
       userId: uuidv4(),
     };
+
+    console.log("jsondata " + JSON.stringify(requestData));
 
     fetch("http://127.0.0.1:5000/sez", {
       method: "POST",
@@ -41,9 +44,11 @@ const Taskform = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        // console.log(data.response);
         setImageContent(data.response);
         console.log("mydata " + data.response);
-      });
+      })
+      .then((error) => console.log(error));
 
     console.log("The project name is ", projectname);
     console.log("The plan duration is ", planduration);
@@ -51,18 +56,18 @@ const Taskform = () => {
     console.log("The table data is ", tableData);
 
     // Create a new task object with the form field values
-    const newTask = {
-      name: projectname,
-      planDuration: planduration,
-      actualDuration: actualduration,
-      tableData: tableData,
-    };
+    // const newTask = {
+    //   name: projectname,
+    //   planDuration: planduration,
+    //   actualDuration: actualduration,
+    //   tableData: tableData,
+    // };
 
     //Retrieve existing tasks from local storaga
     const existingTasks = getTaskData();
 
     //Add the new task to the existing tasks array
-    const updateTasks = [...existingTasks, newTask];
+    const updateTasks = [...existingTasks, requestData];
 
     //Store the updated tasks data in local storage
     storeTaskData(updateTasks);

@@ -19,9 +19,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
             <input
               type="text"
               className="form-control"
-              onChange={(e) =>
-                handleTableDataChange(i, "activity", e.target.value)
-              }
+              onChange={(e) => handleTableDataChange(i, "name", e.target.value)}
             />
           </td>
           <td>
@@ -109,7 +107,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
       updatedData[index][field] = value;
     }
 
-    updatedData[index][field] = value;
+    // updatedData[index][field] = value;
     setTableData(updatedData);
     onUpdateTableData(updatedData);
   };
