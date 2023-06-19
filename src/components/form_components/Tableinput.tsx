@@ -27,7 +27,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
             <input
               type="number"
               className="form-control"
-              step="0.01"
+              step="1"
               min="0"
               onChange={(e) =>
                 handleTableDataChange(i, "duration", e.target.value)
@@ -38,7 +38,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
             <input
               type="number"
               className="form-control"
-              step="0.01"
+              step="0.001"
               min="0"
               onChange={(e) => handleTableDataChange(i, "cost", e.target.value)}
             />
@@ -58,7 +58,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
               name={`man_power_${i}`}
               placeholder="Man Power"
               className="form-control m-2"
-              step="0.01"
+              step="1"
               min="0"
               onChange={(e) =>
                 handleTableDataChange(i, "man_power", e.target.value)
@@ -69,7 +69,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
               name={`machines_${i}`}
               placeholder="Machines"
               className="form-control m-2"
-              step="0.01"
+              step="1"
               min="0"
               onChange={(e) =>
                 handleTableDataChange(i, "machines", e.target.value)
@@ -80,7 +80,7 @@ const Tableinput = ({ onUpdateTableData }: TableinputProps) => {
               name={`material_${i}`}
               placeholder="Material"
               className="form-control m-2"
-              step="0.01"
+              step="1"
               min="0"
               onChange={(e) =>
                 handleTableDataChange(i, "material", e.target.value)

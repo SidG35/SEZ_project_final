@@ -140,7 +140,7 @@ const Taskform = () => {
         />
       </div>
 
-      <h3 className="m-auto">{messageContent}</h3>
+      <h4 className="text-center">Maximum End Time: {messageContent}</h4>
     </div>
   );
 };
